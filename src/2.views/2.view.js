@@ -138,7 +138,7 @@ PhoneApp.pack('PhoneApp', function(api) {
     insertChildAt: function(view, position) {
       this.willInsertElement();
       PhoneApp.renderLoop.schedule(function() {
-        this.element.insertBefore(view.renderWrapper(), this.element.children[position]);
+        this.element.insertBefore((view.element || view.render()), this.element.children[position]);
         view.didInsertElement();
       }, this);
       view._parentView = this;
@@ -433,7 +433,7 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
 
-    destroy: function(keepDom) {
+    destroy: function() {
       this.willDestroyElement();
       this._isDestroying = true;
 
@@ -446,7 +446,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       });
 
       //Parent has already destroyed dom element
-      if (keepDom || (this._parentView && this._parentView._isDestroying)) {
+      if (this._parentView && this._parentView._isDestroying) {
         this._destroyElement();
       } else {
         PhoneApp.renderLoop.add(this, 'destroy', this._destroyElement);

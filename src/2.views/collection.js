@@ -10,10 +10,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
     init: function() {
       PhoneApp.CollectionView._super('init', this);
-      this._domTree = document.createDocumentFragment();
-      this._boundingIndex = {start: 0, end: Infinity};
       this._replaceTree = {};
-      //this.content.limit = 0;
+      this.content.limit = Infinity;
     },
 
     didInsertElement: function() {
@@ -60,32 +58,29 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     _domController: function(index, added, removed) {
+      var childNodes = this.element.childNodes;
+
       added.forEach(function(item, addedIndex) {
         var realIndex = index + addedIndex;
-        var testClass;
+        var viewClass;
 
         if (realIndex in this._replaceTree) {
-          testClass = this._replaceTree[realIndex];
+          viewClass = this._replaceTree[realIndex];
           delete this._replaceTree[realIndex];
-          this._domTree.insertBefore(testClass.element, this._domTree.childNodes[index]);
         } else {
-          testClass = Pa.View.create({
+          viewClass = Pa.View.create({
             tagName: 'li'
           });
-          testClass._compiledTpl = this._childTemplate;
-          testClass.controller = this.controller;
-          testClass.content = item;
-          this._domTree.insertBefore(testClass.render(), this._domTree.childNodes[index]);
-
-          testClass._parentView = this;
+          viewClass._compiledTpl = this._childTemplate;
+          viewClass.controller = this.controller;
+          viewClass.content = item;
         }
 
-        this._childViews.insertAt(realIndex, testClass);
-        //this.insertChildAt(testClass, index);
+        this.insertChildAt(viewClass, index);
       }, this);
 
       removed.forEach(function(item) {
-        var node = this._domTree.childNodes[index];
+        var node = childNodes[index];
         if (!node) {
           console.error('Collection trying to remove a dom node that does not exists', index, item);
           return;
@@ -93,21 +88,12 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
         var nextPosition = this.content.content.indexOf(item);
         if (nextPosition == -1) {
-          this._childViews[index].destroy(true);
+          this._childViews[index].destroy();
         } else {
           this._replaceTree[nextPosition] = this._childViews.removeAt(index)[0];
         }
 
-
-        this._domTree.removeChild(this._domTree.childNodes[index]);
       }, this);
-
-      var modLength = added.length || removed.length;
-      if (index > this._boundingIndex.end - 1 || index + modLength < this._boundingIndex.start) {
-        return;
-      }
-
-      Pa.renderLoop.schedule(this._triggerRendering, this);
     }
   });
 });
