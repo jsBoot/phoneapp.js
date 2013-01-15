@@ -70,29 +70,13 @@ PhoneApp.pack('PhoneApp', function(api) {
     _meta_observers: null,
     _metamorphs: null,
 
-    context: function() {
-      var controller = this.controller;
-
-      //XXX return this._parentView.context ?
-      if (!controller && this._parentView && this._parentView.controller)
-        controller = this._parentView.controller;
-      var context = {};
-      PhoneApp.ENV.HANDLEBARS_EXPOSE_OBJECTS.forEach(function(i) {
-        context[i] = window[i];
-      });
-
-      context.controller = controller;
-      context.view = this;
-      return context;
-
-    }.property('controller'),
-
-
     init: function() {
       /*jshint camelcase:false*/
       PhoneApp.View._super('init', this);
 
       this.elementId = 'phoneapp' + this.__id__;
+
+      PhoneApp.View.views[this.elementId] = this;
       this._childViews = [];
 
       if (!this.attributeBindings)
@@ -124,9 +108,27 @@ PhoneApp.pack('PhoneApp', function(api) {
       this._compiledTpl = tpl || PhoneApp.K;
     },
 
+    context: function() {
+      var controller = this.controller;
+
+      //XXX return this._parentView.context ?
+      if (!controller && this._parentView && this._parentView.controller)
+        controller = this._parentView.controller;
+      var context = {};
+      PhoneApp.ENV.HANDLEBARS_EXPOSE_OBJECTS.forEach(function(i) {
+        context[i] = window[i];
+      });
+
+      context.controller = controller;
+      context.view = this;
+      return context;
+
+    }.property('controller'),
+
     $: function(sel) {
       return sel ? $(this.element).find(sel) : $(this.element);
     },
+
 
     appendTo: function(parentNode) {
       this.willInsertElement();
@@ -461,6 +463,8 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     _destroyElement: function() {
+      delete PhoneApp.View.views[this.elementId];
+
       //remove my childs
       this._childViews.forEach(function(v) {
         v.destroy();
@@ -469,6 +473,8 @@ PhoneApp.pack('PhoneApp', function(api) {
       PhoneApp.View._super('destroy', this);
     }
   });
+
+  this.View.views = {};
 
 });
 

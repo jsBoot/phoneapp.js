@@ -23,7 +23,6 @@
     Object.keys(options.hash).forEach(function(k) {
       overload[k] = options.hash[k];
     });
-    console.log('**** view overload', overload);
 
     if (!overload.controller)
       overload.controller = this.controller;
