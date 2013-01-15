@@ -2,7 +2,7 @@ PhoneApp.pack('PhoneApp', function() {
   /*global requestAnimationFrame:true*/
   'use strict';
 
-  var animLoop = function(render, element ) {
+  var animLoop = function(render, element) {
     var running, lastFrame = Date.now();
     var loop = function(now) {
       if (running !== false) {

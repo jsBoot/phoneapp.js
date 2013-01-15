@@ -6,9 +6,12 @@ import helpers as PH
 
 @task("default")
 def default():
-  libs = FileList('src', filter="*namespace.js")
-  libs.merge(FileList('src', filter="*.js", exclude="*namespace.js"))
+  libs = FileList('src', filter="*namespace.js", exclude="*shims*")
+  libs.merge(FileList('src', filter="*.js", exclude="*namespace.js,*shims*"))
   combine(libs, 'build/phoneapp.js')
+
+  shims = FileList('src', filter="*shims*")
+  combine(shims, 'build/phoneapp.shims.js')
 
 @task("Lint")
 def lint():

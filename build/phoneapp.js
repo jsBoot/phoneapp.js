@@ -1048,7 +1048,7 @@ PhoneApp.pack('PhoneApp', function() {
   /*global requestAnimationFrame:true*/
   'use strict';
 
-  var animLoop = function(render, element ) {
+  var animLoop = function(render, element) {
     var running, lastFrame = Date.now();
     var loop = function(now) {
       if (running !== false) {
@@ -1353,11 +1353,11 @@ PhoneApp.pack('PhoneApp', function(api) {
     }
   };
 
-  Router.toString = function() {
+  this.Router = api.Object.extend(Router);
+
+  this.Router.toString = this.Router.prototype.toString = function() {
     return 'PhoneApp.Router';
   };
-
-  this.Router = api.Object.extend(Router);
 
   this.Router.prototype.transitionTo = function(path, context) {
     var tree = resolvePath(path, this.root);
