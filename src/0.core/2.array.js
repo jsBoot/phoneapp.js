@@ -91,14 +91,14 @@ PhoneApp.pack('PhoneApp.types', function(api) {
     quickSort(arr, compare, last + 1, right);
   };
 
-  Array.prototype.quickSort = function(compare){
+  Array.prototype.quickSort = function(compare) {
     quickSort(this, compare, 0, this.length - 1);
     return this;
   };
 
   this.ArrayController = api.Object.extend({
     length: 0,
-    init: function(){
+    init: function() {
       api.Object._super('init', this);
 
       var arr = false;
@@ -129,7 +129,7 @@ PhoneApp.pack('PhoneApp.types', function(api) {
             item = m.splice(needle, 1).pop();
             needle = s.indexOf(item);
             s.splice(needle, 1);
-            if(needle < t.length)
+            if (needle < t.length)
               t.replace(needle, 1);
           }
         });
@@ -148,22 +148,22 @@ PhoneApp.pack('PhoneApp.types', function(api) {
             m.splice(index, 0, item);
             var needle = 0;
             s.some(function(sub, idx) {
-              if(sort(item, sub) >= 0)
+              if (sort(item, sub) >= 0)
                 needle = idx + 1;
               return sort(item, sub) < 0;
             });
             s.splice(needle, 0, item);
-            if(needle <= t.length && needle < limit)
+            if (needle <= t.length && needle < limit)
               t.replace(needle, 0, item);
           }
         });
 
         // Overflow?
-        if(t.length > limit)
+        if (t.length > limit)
           t.replace(limit, t.length - limit);
 
         // Underflow?
-        if(limit != Infinity && t.length < limit && t.length < s.length)
+        if (limit != Infinity && t.length < limit && t.length < s.length)
           t.replace(t.length, 0, s.slice(t.length, limit));
 
         this.set('length', t.length);
@@ -180,7 +180,7 @@ PhoneApp.pack('PhoneApp.types', function(api) {
       };
 
       Object.defineProperty(this, 'original', {
-        get: function(){
+        get: function() {
           return arr;
         }
       });
@@ -200,7 +200,7 @@ PhoneApp.pack('PhoneApp.types', function(api) {
           s = Array.from(m);
           s.quickSort(sort);
           t.clear();
-          s.some(function(item){
+          s.some(function(item) {
             t.pushObject(item);
             return t.length == limit;
           });
@@ -220,7 +220,7 @@ PhoneApp.pack('PhoneApp.types', function(api) {
             s = Array.from(m);
             s.quickSort(sort);
             t.clear();
-            s.some(function(item){
+            s.some(function(item) {
               t.pushObject(item);
               return t.length == limit;
             });
@@ -240,7 +240,7 @@ PhoneApp.pack('PhoneApp.types', function(api) {
             s = Array.from(m);
             s.quickSort(sort);
             t.clear();
-            s.some(function(item){
+            s.some(function(item) {
               t.pushObject(item);
               return t.length == limit;
             });
@@ -255,10 +255,10 @@ PhoneApp.pack('PhoneApp.types', function(api) {
         },
         set: function(callback) {
           sort = callback;
-          if (arr){
+          if (arr) {
             s.quickSort(sort);
             t.clear();
-            s.some(function(item){
+            s.some(function(item) {
               t.pushObject(item);
               return t.length == limit;
             });
@@ -273,10 +273,10 @@ PhoneApp.pack('PhoneApp.types', function(api) {
         },
         set: function(value) {
           limit = value;
-          if (arr){
-            if(t.length > limit)
+          if (arr) {
+            if (t.length > limit)
               t.replace(limit, t.length - limit);
-            else{
+            else {
               t.replace.apply(t, [t.length, 0, s.slice(t.length, limit)]);
             }
             this.set('length', t.length);

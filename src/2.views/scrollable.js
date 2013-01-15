@@ -2,31 +2,31 @@ PhoneApp.use('PhoneApp.types.Object');
 PhoneApp.pack('PhoneApp', function(api) {
   'use strict';
 
-  var setTansform = function (el, translate, transition) {
+  var setTansform = function(el, translate, transition) {
     var style = el.style;
 
     style.webkitTransitionDuration = style.MozTransitionDuration = style.msTransitionDuration =
-          style.OTransitionDuration = style.transitionDuration =  transition + 'ms';
-      //XXX webkit black magic. Translate3d changes the flow and follow the scroll position
-    style.MozTransform = style.webkitTransform = 'translate3d(0,'+translate+'px,0)';
-    style.msTransform = style.OTransform = 'translateX('+translate+'px)';
+        style.OTransitionDuration = style.transitionDuration = transition + 'ms';
+    //XXX webkit black magic. Translate3d changes the flow and follow the scroll position
+    style.MozTransform = style.webkitTransform = 'translate3d(0,' + translate + 'px,0)';
+    style.msTransform = style.OTransform = 'translateX(' + translate + 'px)';
   };
 
-  var setTansformAllChildren = function (parent, translate, transition) {
+  var setTansformAllChildren = function(parent, translate, transition) {
     var nodes = parent.children;
     var childNode;
-    for (var i =0; i < nodes.length; i ++) {
+    for (var i = 0; i < nodes.length; i++) {
       childNode = nodes[i];
       setTansform(childNode, translate, transition);
     }
   }
 
-  
 
-  var tapToTop = (function (scrollableElement) {
+
+  var tapToTop = (function(scrollableElement) {
     var currentOffset = scrollableElement.scrollTop;
     var nodes = scrollableElement.children;
-    var onAnimationEnd = function () {
+    var onAnimationEnd = function() {
       // Animation is complete, swap transform with
       // change in scrollTop after removing transition.
       this.style.webkitTransition = '-webkit-transform 0s ease-out';
@@ -36,15 +36,15 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       this.removeEventListener('webkitTransitionEnd', onAnimationEnd);
     };
-     
-    for (var i =0; i < nodes.length; i++) {
+
+    for (var i = 0; i < nodes.length; i++) {
       // Animate to position 0 with a transform.
       nodes[i].style.webkitTransition =
           '-webkit-transform 300ms ease-out';
       nodes[i].addEventListener(
           'webkitTransitionEnd', onAnimationEnd, false);
       nodes[i].style.webkitTransform =
-          'translate3d(0, ' + (currentOffset) +'px,0)';
+          'translate3d(0, ' + (currentOffset) + 'px,0)';
     }
   });
 
@@ -55,22 +55,22 @@ PhoneApp.pack('PhoneApp', function(api) {
     isScrolling: false,
     isLoading: false,
 
-    didInsertElement: function () {
+    didInsertElement: function() {
       var scrollable = this.element;
       var pull = scrollable.querySelector('.pull-to-refresh');
 
       setTansformAllChildren(scrollable, 0, 0);
 
       document.addEventListener('taptotop', this.scrollToTop);
-      
-      this.$().on('touchmove', function (e) {
+
+      this.$().on('touchmove', function(e) {
 
         // ensure swiping with one touch and not pinching
         if (e.touches.length > 1 || e.scale && e.scale !== 1) return;
 
-        Pa.renderLoop.schedule(function () {
+        Pa.renderLoop.schedule(function() {
           var top = scrollable.scrollTop;
-        
+
           if (top >= 0 || this.isLoading)
             return true;
 
@@ -82,22 +82,22 @@ PhoneApp.pack('PhoneApp', function(api) {
 
           this.set('isActivated', true);
         }, this);
-        
+
 
         return true;
       }.bind(this));
 
-      this.$().on('touchend', function (e) {
+      this.$().on('touchend', function(e) {
         if (!this.isActivated || this.isLoading)
           return true;
-        Pa.renderLoop.schedule(function () {
+        Pa.renderLoop.schedule(function() {
           var top = scrollable.scrollTop;
 
           if (top >= 0)
             return true;
 
           $(pull).removeClass('drop-to-refresh');
-          
+
           if (top > -this.offsetPullToRefresh)
             return true;
 
@@ -108,7 +108,7 @@ PhoneApp.pack('PhoneApp', function(api) {
           this.set('isActivated', false);
           this.set('isLoading', true);
 
-          window.setTimeout(function () {
+          window.setTimeout(function() {
             this.set('isLoading', false);
             //XXX smooth loading slide out
             setTansformAllChildren(this.element, 0, 0);
@@ -123,11 +123,11 @@ PhoneApp.pack('PhoneApp', function(api) {
       }.bind(this));
     },
 
-    scrollToTop: function () {
+    scrollToTop: function() {
       tapToTop(this.element);
     },
 
-    willDestroyElement: function () {
+    willDestroyElement: function() {
       this.$().off();
       document.removeEventListener('taptotop', this.scrollToTop);
     }

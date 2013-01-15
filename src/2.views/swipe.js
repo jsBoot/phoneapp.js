@@ -6,7 +6,7 @@
  *
 */
 
-(function(){
+(function() {
   'use strict';
 
   window.Swipe = function(element, options) {
@@ -139,7 +139,7 @@
       // reset deltaX
       this.deltaX = 0;
 
-      
+
       // set transition time to 0 for 1-to-1 touch movement
       this.element.style.MozTransitionDuration = this.element.style.webkitTransitionDuration = 0;
 
@@ -159,7 +159,7 @@
       // determine if scrolling test has run - one time test
       if (typeof this.isScrolling == 'undefined') {
         this.isScrolling = !!(this.isScrolling ||
-              Math.abs(this.deltaX) < Math.abs(e.touches[0].pageY - this.start.pageY));
+            Math.abs(this.deltaX) < Math.abs(e.touches[0].pageY - this.start.pageY));
       }
 
       if (this.locked === undefined) {

@@ -11,12 +11,12 @@ PhoneApp.pack('PhoneApp', function(api) {
     init: function() {
       PhoneApp.CollectionView._super('init', this);
       this._domTree = document.createDocumentFragment();
-      this._boundingIndex = {start:0, end: Infinity};
+      this._boundingIndex = {start: 0, end: Infinity};
       this._replaceTree = {};
       //this.content.limit = 0;
     },
 
-    didInsertElement: function () {
+    didInsertElement: function() {
       if (!this.content)
         return;
 
@@ -25,17 +25,17 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       this.content.content.addArrayObserver(this._domController.bind(this));
 
-      this.addObserver('content', function (key, old, newArray) {
+      this.addObserver('content', function(key, old, newArray) {
         old.content.removeArrayObserver(this._domController);
         newArray.content.addArrayObserver(this._domController);
       });
     },
 
-    _triggerRendering: function () {
+    _triggerRendering: function() {
       var nodes = this._domTree.childNodes;
 
       var maxLength = this.element.children.length;
-      
+
       var start = this._boundingIndex.start;
       var max = this._boundingIndex.end;
 
@@ -45,9 +45,9 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       for (var i = start; i < max; i++) {
         var newNode = nodes[i].cloneNode(true);
-        $(newNode).on('tap', function () {
-              console.log('coin');
-          })
+        $(newNode).on('tap', function() {
+          console.log('coin');
+        });
         if (i >= maxLength)
           this.element.appendChild(newNode);
         else
@@ -55,13 +55,13 @@ PhoneApp.pack('PhoneApp', function(api) {
       }
 
       //delete extra nodes
-      for (var i = maxLength - 1; i >=  max - start; i--) {
+      for (var i = maxLength - 1; i >= max - start; i--) {
         this.element.removeChild(this.element.children[i]);
       }
-      
+
     },
 
-    _domController: function (index, added, removed) {
+    _domController: function(index, added, removed) {
       added.forEach(function(item, addedIndex) {
         var realIndex = index + addedIndex;
         var testClass;
@@ -78,7 +78,7 @@ PhoneApp.pack('PhoneApp', function(api) {
           testClass.controller = this.controller;
           testClass.content = item;
           this._domTree.insertBefore(testClass.render(), this._domTree.childNodes[index]);
-          
+
           testClass._parentView = this;
         }
 
@@ -100,7 +100,7 @@ PhoneApp.pack('PhoneApp', function(api) {
           this._replaceTree[nextPosition] = this._childViews.removeAt(index)[0];
         }
 
-        
+
         this._domTree.removeChild(this._domTree.childNodes[index]);
       }, this);
 

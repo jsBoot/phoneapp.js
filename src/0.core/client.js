@@ -33,20 +33,20 @@ PhoneApp.pack('PhoneApp.service', function(api) {
     var Backend = api.XMLHttpRequest;
 
     this.configure = function(options) {
-      if(options.host)
+      if (options.host)
         host = options.host;
-      if(options.port)
+      if (options.port)
         port = options.port;
-      if(options.scheme)
+      if (options.scheme)
         scheme = options.scheme + ':';
-      if(options.version)
+      if (options.version)
         version = options.version;
-      if(options.backend)
+      if (options.backend)
         Backend = options.backend;
     };
 
     Object.defineProperty(this, 'Backend', {
-      get: function(){
+      get: function() {
         return Backend;
       }
     });
@@ -98,7 +98,7 @@ PhoneApp.pack('PhoneApp.service', function(api) {
     var success = this.options.onsuccess;
 
     // XXX Latest chrome seems to fire OPENED synchronously
-    if(!inner){
+    if (!inner) {
       console.warn('BAD SHIT HAPPENED!');
       return;
     }
@@ -138,7 +138,7 @@ PhoneApp.pack('PhoneApp.service', function(api) {
       case 201:
         break;
       case 308:
-      // GET follow this - not too sure this is accurate HTTP but required by Roxee
+        // GET follow this - not too sure this is accurate HTTP but required by Roxee
         this.options.url = inner.getResponseHeader('Location');
         engine.query(engine.GET, this.options, this.headers);
         return;
@@ -185,7 +185,7 @@ PhoneApp.pack('PhoneApp.service', function(api) {
         break;
     }
 
-    if(this.error){
+    if (this.error) {
       if (failure)
         // XXX pass of data is redundant, as it attached on the detail of the error under .data
         // but roxee historically needed this
@@ -207,7 +207,7 @@ PhoneApp.pack('PhoneApp.service', function(api) {
     var url = options.url || this.url(options);
     if (!headers)
       headers = {};
-    if(!headers.Accept)
+    if (!headers.Accept)
       headers.Accept = 'application/json';
 
     var rescope = {
@@ -228,7 +228,7 @@ PhoneApp.pack('PhoneApp.service', function(api) {
     }catch (e) {
       rescope.exception = e.toString();
       rescope.error = new api.Error(api.Error.OPENING_FAILED, 'Failed opening likely bogus request', rescope);
-      if(options.onfailure)
+      if (options.onfailure)
         options.onfailure(rescope.error);
       throw rescope.error;
     }
@@ -237,15 +237,15 @@ PhoneApp.pack('PhoneApp.service', function(api) {
     var payload = options.payload;
 
     if (method == this.POST) {
-      if(!headers['Content-Type']){
+      if (!headers['Content-Type']) {
         if (hasModern && ((payload instanceof File) || (payload instanceof Blob)))
           headers['Content-Type'] = payload.type;
         else
           headers['Content-Type'] = 'application/json';
       }
 
-      if(headers['Content-Type'] == 'application/json') {
-        try{
+      if (headers['Content-Type'] == 'application/json') {
+        try {
           payload = JSON.stringify(payload);
         }catch (e) {
           headers['Content-Type'] = 'application/octet-stream';
@@ -262,7 +262,7 @@ PhoneApp.pack('PhoneApp.service', function(api) {
     }catch (e) {
       rescope.exception = e.toString();
       rescope.error = new api.Error(api.Error.SEND_FAILED, 'Failed sending. Bogus payload?', rescope);
-      if(options.onfailure)
+      if (options.onfailure)
         options.onfailure(rescope.error);
       throw rescope.error;
     }

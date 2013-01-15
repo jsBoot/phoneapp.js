@@ -44,7 +44,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       this.rootView.appendTo(this.rootElement);
 
       if (window.devicePixelRatio > 1)
-          this.device.set('isRetina', true);
+        this.device.set('isRetina', true);
 
       if (this.device.isMobile) {
 

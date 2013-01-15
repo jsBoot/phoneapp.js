@@ -137,7 +137,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
     insertChildAt: function(view, position) {
       this.willInsertElement();
-      PhoneApp.renderLoop.schedule(function () {
+      PhoneApp.renderLoop.schedule(function() {
         this.element.insertBefore(view.renderWrapper(), this.element.children[position]);
         view.didInsertElement();
       }, this);
