@@ -29,34 +29,6 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
       });
     },
 
-    _triggerRendering: function() {
-      var nodes = this._domTree.childNodes;
-      var i;
-
-      var maxLength = this.element.children.length;
-
-      var start = this._boundingIndex.start;
-      var max = this._boundingIndex.end;
-
-      if ((start + max - 1) > nodes.length)
-        max = nodes.length - start;
-
-
-      for (i = start; i < max; i++) {
-        var newNode = nodes[i].cloneNode(true);
-        if (i >= maxLength)
-          this.element.appendChild(newNode);
-        else
-          this.element.replaceChild(newNode, this.element.children[i]);
-      }
-
-      //delete extra nodes
-      for (i = maxLength - 1; i >= max - start; i--) {
-        this.element.removeChild(this.element.children[i]);
-      }
-
-    },
-
     _domController: function(index, added, removed) {
       var childNodes = this.element.childNodes;
 

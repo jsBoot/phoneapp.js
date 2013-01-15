@@ -1928,6 +1928,13 @@ PhoneApp.pack('PhoneApp', function(api) {
         m.destroy();
       });
 
+      //remove myself from my parent if my parent isn't destroying himsself
+      if (this._parentView && !this._parentView._isDestroying)
+        this._parentView._childViews.removeObject(this);
+
+      //remove dom listeners
+      this.$().off();
+
       //Parent has already destroyed dom element
       if (this._parentView && this._parentView._isDestroying) {
         this._destroyElement();
@@ -1942,12 +1949,6 @@ PhoneApp.pack('PhoneApp', function(api) {
         v.destroy();
       });
 
-      //remove myself from my parent if my parent isn't destroying himsself
-      if (this._parentView && !this._parentView._isDestroying)
-        this._parentView._childViews.removeObject(this);
-
-      //remove dom listeners
-      $(this.element).off();
       PhoneApp.View._super('destroy', this);
     }
   });
@@ -1984,34 +1985,6 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         old.content.removeArrayObserver(this._domController);
         newArray.content.addArrayObserver(this._domController);
       });
-    },
-
-    _triggerRendering: function() {
-      var nodes = this._domTree.childNodes;
-      var i;
-
-      var maxLength = this.element.children.length;
-
-      var start = this._boundingIndex.start;
-      var max = this._boundingIndex.end;
-
-      if ((start + max - 1) > nodes.length)
-        max = nodes.length - start;
-
-
-      for (i = start; i < max; i++) {
-        var newNode = nodes[i].cloneNode(true);
-        if (i >= maxLength)
-          this.element.appendChild(newNode);
-        else
-          this.element.replaceChild(newNode, this.element.children[i]);
-      }
-
-      //delete extra nodes
-      for (i = maxLength - 1; i >= max - start; i--) {
-        this.element.removeChild(this.element.children[i]);
-      }
-
     },
 
     _domController: function(index, added, removed) {

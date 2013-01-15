@@ -445,6 +445,13 @@ PhoneApp.pack('PhoneApp', function(api) {
         m.destroy();
       });
 
+      //remove myself from my parent if my parent isn't destroying himsself
+      if (this._parentView && !this._parentView._isDestroying)
+        this._parentView._childViews.removeObject(this);
+
+      //remove dom listeners
+      this.$().off();
+
       //Parent has already destroyed dom element
       if (this._parentView && this._parentView._isDestroying) {
         this._destroyElement();
@@ -459,12 +466,6 @@ PhoneApp.pack('PhoneApp', function(api) {
         v.destroy();
       });
 
-      //remove myself from my parent if my parent isn't destroying himsself
-      if (this._parentView && !this._parentView._isDestroying)
-        this._parentView._childViews.removeObject(this);
-
-      //remove dom listeners
-      $(this.element).off();
       PhoneApp.View._super('destroy', this);
     }
   });
