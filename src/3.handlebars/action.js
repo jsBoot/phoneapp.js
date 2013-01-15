@@ -1,6 +1,8 @@
 (function() {
   'use strict';
   Handlebars.registerHelper('action', function(path, context, options) {
+    var scope = null;
+
     if (!options && context.hash) {
       options = context;
       context = this;
@@ -9,7 +11,6 @@
     if (typeof(path) == 'string') {
       var infos = path.split('.');
       var first = infos[0] || '';
-      var scope = null;
 
       if (first === 'view') {
         infos.shift();

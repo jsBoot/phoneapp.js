@@ -1,5 +1,5 @@
 PhoneApp.use('PhoneApp.types.Object');
-PhoneApp.pack('PhoneApp', function(api) {
+PhoneApp.pack('PhoneApp', function(/*api*/) {
   'use strict';
 
   var setTansform = function(el, translate, transition) {
@@ -19,11 +19,11 @@ PhoneApp.pack('PhoneApp', function(api) {
       childNode = nodes[i];
       setTansform(childNode, translate, transition);
     }
-  }
+  };
 
 
 
-  var tapToTop = (function(scrollableElement) {
+  var tapToTop = function(scrollableElement) {
     var currentOffset = scrollableElement.scrollTop;
     var nodes = scrollableElement.children;
     var onAnimationEnd = function() {
@@ -46,7 +46,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       nodes[i].style.webkitTransform =
           'translate3d(0, ' + (currentOffset) + 'px,0)';
     }
-  });
+  };
 
 
 
@@ -87,7 +87,7 @@ PhoneApp.pack('PhoneApp', function(api) {
         return true;
       }.bind(this));
 
-      this.$().on('touchend', function(e) {
+      this.$().on('touchend', function(/*e*/) {
         if (!this.isActivated || this.isLoading)
           return true;
         Pa.renderLoop.schedule(function() {

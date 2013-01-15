@@ -1956,7 +1956,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
 
 PhoneApp.use('PhoneApp.types.Object');
-PhoneApp.pack('PhoneApp', function(api) {
+PhoneApp.pack('PhoneApp', function(/*api*/) {
   'use strict';
 
   this.CollectionView = this.View.extend({
@@ -1990,6 +1990,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
     _triggerRendering: function() {
       var nodes = this._domTree.childNodes;
+      var i;
 
       var maxLength = this.element.children.length;
 
@@ -2000,11 +2001,8 @@ PhoneApp.pack('PhoneApp', function(api) {
         max = nodes.length - start;
 
 
-      for (var i = start; i < max; i++) {
+      for (i = start; i < max; i++) {
         var newNode = nodes[i].cloneNode(true);
-        $(newNode).on('tap', function() {
-          console.log('coin');
-        });
         if (i >= maxLength)
           this.element.appendChild(newNode);
         else
@@ -2012,7 +2010,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       }
 
       //delete extra nodes
-      for (var i = maxLength - 1; i >= max - start; i--) {
+      for (i = maxLength - 1; i >= max - start; i--) {
         this.element.removeChild(this.element.children[i]);
       }
 
@@ -2028,7 +2026,7 @@ PhoneApp.pack('PhoneApp', function(api) {
           delete this._replaceTree[realIndex];
           this._domTree.insertBefore(testClass.element, this._domTree.childNodes[index]);
         } else {
-          var testClass = Pa.View.create({
+          testClass = Pa.View.create({
             tagName: 'li'
           });
           testClass._compiledTpl = this._childTemplate;
@@ -2072,7 +2070,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 });
 
 PhoneApp.use('PhoneApp.types.Object');
-PhoneApp.pack('PhoneApp', function(api) {
+PhoneApp.pack('PhoneApp', function(/*api*/) {
   'use strict';
 
   var setTansform = function(el, translate, transition) {
@@ -2092,11 +2090,11 @@ PhoneApp.pack('PhoneApp', function(api) {
       childNode = nodes[i];
       setTansform(childNode, translate, transition);
     }
-  }
+  };
 
 
 
-  var tapToTop = (function(scrollableElement) {
+  var tapToTop = function(scrollableElement) {
     var currentOffset = scrollableElement.scrollTop;
     var nodes = scrollableElement.children;
     var onAnimationEnd = function() {
@@ -2119,7 +2117,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       nodes[i].style.webkitTransform =
           'translate3d(0, ' + (currentOffset) + 'px,0)';
     }
-  });
+  };
 
 
 
@@ -2160,7 +2158,7 @@ PhoneApp.pack('PhoneApp', function(api) {
         return true;
       }.bind(this));
 
-      this.$().on('touchend', function(e) {
+      this.$().on('touchend', function(/*e*/) {
         if (!this.isActivated || this.isLoading)
           return true;
         Pa.renderLoop.schedule(function() {
@@ -2426,6 +2424,8 @@ PhoneApp.pack('PhoneApp', function(api) {
 (function() {
   'use strict';
   Handlebars.registerHelper('action', function(path, context, options) {
+    var scope = null;
+
     if (!options && context.hash) {
       options = context;
       context = this;
@@ -2434,7 +2434,6 @@ PhoneApp.pack('PhoneApp', function(api) {
     if (typeof(path) == 'string') {
       var infos = path.split('.');
       var first = infos[0] || '';
-      var scope = null;
 
       if (first === 'view') {
         infos.shift();
