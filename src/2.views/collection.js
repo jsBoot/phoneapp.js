@@ -11,7 +11,6 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     init: function() {
       PhoneApp.CollectionView._super('init', this);
       this._replaceTree = {};
-      this.content.limit = Infinity;
     },
 
     didInsertElement: function() {
