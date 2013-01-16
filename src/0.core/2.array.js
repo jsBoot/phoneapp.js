@@ -185,6 +185,25 @@ PhoneApp.pack('PhoneApp.types', function(api) {
         }
       });
 
+      var docc = false;
+
+      if(this.sort !== undefined)
+        sort = this.sort;
+
+      if(this.filter !== undefined)
+        filter = this.filter;
+
+      if(this.map !== undefined)
+        map = this.map;
+
+      if(this.limit !== undefined)
+        limit = this.limit;
+
+      if(this.content !== undefined){
+        arr = this.content;
+        docc = true;
+      }
+
       Object.defineProperty(this, 'content', {
         enumerable: true,
         get: function() {
@@ -284,6 +303,9 @@ PhoneApp.pack('PhoneApp.types', function(api) {
         }
       });
 
+      // Force reassign
+      if(docc)
+        this.content = arr;
     }
   });
 
