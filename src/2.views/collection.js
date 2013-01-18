@@ -29,7 +29,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     _domController: function(index, added, removed) {
-      var childNodes = this.element.childNodes;
+      var childNodes = this.element.children;
 
       added.forEach(function(item, addedIndex) {
         var realIndex = index + addedIndex;
