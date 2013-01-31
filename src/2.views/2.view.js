@@ -181,7 +181,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       attributes = this._computeAttributesBindings(attributes);
 
       if (staticClass)
-        attributes['class'] += staticClass;
+        attributes['class'] += ' ' + staticClass;
 
       node = document.createElement(this.tagName);
 
