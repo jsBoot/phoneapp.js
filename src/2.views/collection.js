@@ -4,6 +4,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
   this.CollectionView = this.View.extend({
     content: null,
+    itemViewClass: Pa.View,
     _childTemplate: null,
     _domTree: null,
     _replaceTree: null,
@@ -39,7 +40,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           viewClass = this._replaceTree[realIndex];
           delete this._replaceTree[realIndex];
         } else {
-          viewClass = Pa.View.create({
+          viewClass = this.itemViewClass.create({
             tagName: 'li'
           });
           viewClass._compiledTpl = this._childTemplate;
