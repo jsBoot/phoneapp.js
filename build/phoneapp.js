@@ -1672,7 +1672,11 @@ PhoneApp.pack('PhoneApp', function(api) {
     renderWrapper: function() {
       var attributes = [],
           staticClass = '',
-          node;
+          node,
+          hasBindings = false;
+
+      if (this.attributeBindings.length > 0 || this.classNameBindings.length > 0)
+        hasBindings = true;
 
       this.attributeBindings.forEach(function(attr) {
         attributes.push({attribute: attr, value: attr});
@@ -1696,6 +1700,10 @@ PhoneApp.pack('PhoneApp', function(api) {
 
         node.setAttribute(attr, attributes[attr]);
       });
+
+      if (hasBindings)
+        node.setAttribute('data-phoneapp-binding', ++viewAttributeBindingNumber);
+      
       node.setAttribute('id', this.elementId);
       return node;
     },
