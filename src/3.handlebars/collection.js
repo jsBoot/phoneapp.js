@@ -42,10 +42,10 @@
 
     newView = path.create(overload);
 
-    if (bindToView) {
-      console.log('*****', bindToView, currentView.elementId, newView);
+    //XXX clear bindToView when destroying newView
+    if (bindToView)
       currentView.set(bindToView, newView);
-    }
+    
      
     currentView.appendChild(newView);
 
