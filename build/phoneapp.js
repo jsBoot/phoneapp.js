@@ -2568,6 +2568,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
     var overload = {};
     var currentView = null;
+    var bindToView = null;
 
 
     currentView = this.view;
@@ -2584,8 +2585,20 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
     if (!overload.controller)
       overload.controller = this.controller;
-    var newView = path.create(overload);
 
+
+    if (overload.bindToView) {
+      bindToView = overload.bindToView;
+      delete overload.bindToView;
+    }
+
+
+    var newView = path.create(overload);
+    //XXX clear bindToView when destroying newView
+    if (bindToView)
+      currentView.set(bindToView, newView);
+
+    
     currentView.appendChild(newView);
 
     return new Handlebars.SafeString(newView.renderWrapper().outerHTML);
