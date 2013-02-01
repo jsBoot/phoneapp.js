@@ -167,11 +167,7 @@ PhoneApp.pack('PhoneApp', function(api) {
     renderWrapper: function() {
       var attributes = [],
           staticClass = '',
-          node,
-          hasBindings = false;
-
-      if (this.attributeBindings.length > 0 || this.classNameBindings.length > 0)
-        hasBindings = true;
+          node;
 
       this.attributeBindings.forEach(function(attr) {
         attributes.push({attribute: attr, value: attr});
@@ -196,9 +192,6 @@ PhoneApp.pack('PhoneApp', function(api) {
         node.setAttribute(attr, attributes[attr]);
       });
 
-      if (hasBindings)
-        node.setAttribute('data-phoneapp-binding', ++viewAttributeBindingNumber);
-      
       node.setAttribute('id', this.elementId);
       return node;
     },
@@ -223,7 +216,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       attributes.forEach(function(binding) {
         var currentAttribute = binding.attribute,
             currentValue = binding.value,
-            currentId = '[data-phoneapp-binding="' + bindingId + '"]',
+            currentId = bindingId ? '[data-phoneapp-binding="' + bindingId + '"]' : null,
             node;
 
 
@@ -274,13 +267,14 @@ PhoneApp.pack('PhoneApp', function(api) {
               if (justCompute)
                 return;
 
-
               Pa.renderLoop.schedule(
                   renderAttribute, view, [node, 'class', gA['class']]
               );
 
 
             };
+
+
             observer(infos.property, '', this.get(infos.path), true);
 
             this._meta_observers.push({
