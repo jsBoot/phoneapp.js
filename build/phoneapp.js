@@ -2486,6 +2486,10 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
     var overload = {};
     var currentView = null;
+    var newView;
+
+
+    var bindToView = null;
 
 
     currentView = this.view;
@@ -2503,9 +2507,21 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     if (!overload.controller)
       overload.controller = this.controller;
 
-    var newView = path.create(overload);
+    if (!path.apply)
+      throw new Error('collection view is already instantiated');
 
+    if (overload.bindToView) {
+      bindToView = overload.bindToView;
+      delete overload.bindToView;
+    }
 
+    newView = path.create(overload);
+
+    if (bindToView) {
+      console.log('*****', bindToView, currentView.elementId, newView);
+      currentView.set(bindToView, newView);
+    }
+     
     currentView.appendChild(newView);
 
     return new Handlebars.SafeString(newView.renderWrapper().outerHTML);
