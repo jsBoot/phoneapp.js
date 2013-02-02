@@ -1751,7 +1751,7 @@ PhoneApp.pack('PhoneApp', function(api) {
                     view.element.querySelector(currentId);
 
               if (node)
-                gA['class'] = node.getAttribute('class');
+                gA['class'] = node.getAttribute('class') || '';
 
               var type = typeof(newValue);
               if (type == 'boolean' || type == 'number') {
