@@ -1675,7 +1675,14 @@ PhoneApp.pack('PhoneApp', function(api) {
           node;
 
       this.attributeBindings.forEach(function(attr) {
-        attributes.push({attribute: attr, value: attr});
+        var value = attr;
+
+        if (attr.indexOf(':') > -1) {
+          attr = attr.split(':');
+          value = attr.pop();
+          attr = attr.pop();
+        }
+        attributes.push({attribute: attr, value: value});
       }, this);
 
       staticClass = this.classNames.join(' ');
