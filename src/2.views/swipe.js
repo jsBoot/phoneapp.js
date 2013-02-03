@@ -20,6 +20,7 @@
     this.callback = this.options.callback || function() {};
     this.foldedPosition = this.options.foldedPosition || 85;
     this.activated = false;
+    this.isSliding = false;
 
 
 
@@ -181,9 +182,11 @@
 
         // translate immediately 1-to-1
 
-        if (progress > -5 && progress < this.foldedPosition + 5)
+        if (progress > -5 && progress < this.foldedPosition + 5) {
           this.element.style.MozTransform = this.element.style.webkitTransform = 'translate3d(' +
               (this.deltaX < 0 ? 0 : this.deltaX) + 'px,0,0)';
+          this.isSliding = true;
+        }
         e.stopPropagation();
         e.stopImmediatePropagation();
         e.preventDefault();
@@ -194,19 +197,23 @@
 
     },
 
-    onTouchEnd: function(/*e*/) {
+    onTouchEnd: function(e) {
       this.locked = undefined;
       this.direction = 0;
       this.isScrolling = undefined;
 
       // if not scrolling vertically
       if (!this.isScrolling) {
-
         // call slide function with slide end value based on isValidSlide and isPastBounds tests
         this.slide();
-        // e.stopPropagation();
       }
 
+      if (this.isSliding) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        e.preventDefault();
+      }
+      this.isSliding = false;
 
     }
 
