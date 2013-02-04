@@ -1748,9 +1748,6 @@ PhoneApp.pack('PhoneApp', function(api) {
               attr = infos.path;
             }
 
-            console.log(infos);
-
-
             if (!infos.path && infos.className) {
               gA['class'] += ' ' + infos.className;
               return;
