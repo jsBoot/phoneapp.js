@@ -1741,10 +1741,22 @@ PhoneApp.pack('PhoneApp', function(api) {
             var infos = _parsePropertyPath(attr),
                 observer;
 
+
+            if (infos.parent.indexOf('view') === 0) { 
+              infos.parent = infos.parent.replace('view.', '');
+              infos.path = infos.path.replace('view.', '');
+              attr = infos.path;
+            }
+
+            console.log(infos);
+
+
             if (!infos.path && infos.className) {
               gA['class'] += ' ' + infos.className;
               return;
             }
+
+            
 
             infos.parent = infos.parent ? this.get(infos.parent) : this;
 
@@ -1873,6 +1885,11 @@ PhoneApp.pack('PhoneApp', function(api) {
               property = split.pop(),
               observes = split.join('.'),
               observer;
+
+          if (observes.indexOf('view') === 0) { 
+            observes = observes.replace('view.', '');
+            currentValue = currentValue.replace('view.', '');
+          }
 
           observes = observes ? this.get(observes) : this;
 
