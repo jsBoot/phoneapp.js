@@ -12,9 +12,16 @@
   });
 
   Handlebars.registerHelper('bind', function(path) {
+    var view = this.view;
+
     var infos = path.split('.');
     var property = infos.pop();
-    var parent = PhoneApp.get(infos.join('.'));
+
+    if (infos.indexOf('view') == 0)
+      infos.shift();
+
+    var parent = infos.join('.');
+    parent = parent ? view.get(parent) : view;
 
     var m = this.view._addMetamorph(parent, property);
     return new Handlebars.SafeString(m.renderWrapper());

@@ -56,7 +56,7 @@ PhoneApp.pack('PhoneApp', function() {
 
     this.renderWrapper = function() {
       return '<script id="' + this.startNodeId + '"></script>' +
-          (parent.get(property) || '') +
+          (parent.get(property) || ' ') +
              '<script id="' + this.endNodeId + '"></script>';
     };
 
