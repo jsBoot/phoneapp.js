@@ -159,6 +159,10 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     rerender: function() {
+      this._metamorphs.forEach(function(m) {
+        m.destroy();
+      });
+
       return Pa.renderLoop.schedule(function() {
         this.render(this.element);
       }, this);
