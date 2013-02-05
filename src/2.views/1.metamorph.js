@@ -24,7 +24,7 @@ PhoneApp.pack('PhoneApp', function() {
       // }
       //
       PhoneApp.renderLoop.schedule(function() {
-        if (typeof(newValue) == 'string') {
+        if (!newValue.isView) {
           if (nextElement == end)
             end.parentNode.insertBefore(end, document.createTextNode(newValue || ''));
           else
