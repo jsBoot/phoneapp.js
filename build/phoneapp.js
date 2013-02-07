@@ -1683,7 +1683,7 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     insertChildAt: function(view, position) {
-      this.willInsertElement();
+      view.willInsertElement();
       PhoneApp.renderLoop.schedule(function() {
         this.element.insertBefore((view.element || view.render()), this.element.children[position]);
         view.didInsertElement();
