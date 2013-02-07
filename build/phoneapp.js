@@ -2100,8 +2100,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           viewClass.controller = this.controller;
           viewClass.content = item;
         }
-
-        this.insertChildAt(viewClass, index);
+        this.insertChildAt(viewClass, realIndex);
       }, this);
 
       removed.forEach(function(item) {
