@@ -37,21 +37,26 @@ PhoneApp.pack('PhoneApp', function(api) {
     _childs: {},
     route: null,
     enter: PhoneApp.K,
+    leave: PhoneApp.K,
     redirectsTo: null,
     connectOutlets: PhoneApp.K,
     parentRoot: null,
+    setup: PhoneApp.K,
 
     init: function() {
 
       Pa.Route._super('init', this);
-
+      if (this.setup)
+        this.setup();
       for (var i in this) {
         if (api.Object.isExtensionOf(this[i], Pa.Route)) {
           this[i] = this[i].create();
           this[i].parentRoot = this;
           this._childs[i] = this[i];
+
         }
       }
+
     }
   };
 
@@ -65,8 +70,11 @@ PhoneApp.pack('PhoneApp', function(api) {
   var Router = {
     enableLogging: false,
     root: PhoneApp.Route,
-    currentPath: null,
+    currentPath: '',
     controllers: {},
+    leaveHook: PhoneApp.K,
+    enterHook: PhoneApp.K,
+    connectOutletsHook: PhoneApp.K,
 
     init: function() {
       Pa.Router._super('init', this);
@@ -85,13 +93,45 @@ PhoneApp.pack('PhoneApp', function(api) {
     var last = tree.length - 1;
     var currentPath = 'root';
 
+    var lastRouting = [];
+    if (this.currentPath)
+      lastRouting = resolvePath(this.currentPath, this.root);
+
+    var lastStep;
+
     tree.forEach(function(r, i) {
       currentPath += '.' + r.path;
+      lastStep = lastRouting.shift();
+
+      if (lastStep && r.path == lastStep.path) {
+        //same step, do nothing here
+        return;
+      } else if (lastStep) {
+        //different paths from here
+        //pop the last routing and leave
+        var pop = lastRouting.pop();
+        while (pop) {
+          if (pop.route.leave)
+            pop.route.leave(this);
+          this.leaveHook(pop.route);
+          pop = lastRouting.pop();
+        }
+
+        if (lastStep.route.leave)
+          lastStep.route.leave(this);
+        this.leaveHook(lastStep.route);
+      }
+
       r.route.enter(this, context);
+      this.enterHook(r.route, context);
 
       if (i == last) {
-        this.set('currentPath', currentPath);
+        this.set('currentPath', currentPath.replace('root.', ''));
+        this.set('currentRoute', r.route);
         r.route.connectOutlets(this, context);
+        this.connectOutletsHook(r.route, context);
+
+
       }
     }, this);
 
