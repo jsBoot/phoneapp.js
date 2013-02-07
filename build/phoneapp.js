@@ -1597,6 +1597,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
     attributeBindings: null,
     classNameBindings: null,
+    attributes: null,
 
     willInsertElement: PhoneApp.K,
     didInsertElement: PhoneApp.K,
@@ -1637,6 +1638,9 @@ PhoneApp.pack('PhoneApp', function(api) {
       else if (typeof(this.classNames) == 'string')
         this.classNames = this.classNames.split(' ');
 
+      if (!this.attributes)
+        this.attributes = [];
+      
       this._meta_observers = [];
       this._metamorphs = [];
 
@@ -1741,6 +1745,13 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       node = document.createElement(this.tagName);
 
+      this.attributes.forEach(function (attr) {
+        if (!attr)
+          return;
+
+        var infos = attr.split('=');
+        node.setAttribute(infos.shift(), infos.shift());
+      });
       Object.keys(attributes).forEach(function(attr) {
         if (!attributes[attr])
           return;
