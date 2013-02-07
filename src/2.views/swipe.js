@@ -21,6 +21,7 @@
     this.foldedPosition = this.options.foldedPosition || 85;
     this.activated = false;
     this.isSliding = false;
+    this.lockSlide = false;
 
 
 
@@ -119,6 +120,8 @@
     },
 
     onTouchStart: function(e) {
+      if (this.lockSlide)
+        return;
 
       this.start = {
 
@@ -148,7 +151,8 @@
     },
 
     onTouchMove: function(e) {
-
+      if (this.lockSlide)
+        return;
       // ensure swiping with one touch and not pinching
       if (e.touches.length > 1 || e.scale && e.scale !== 1) return;
 
@@ -198,6 +202,9 @@
     },
 
     onTouchEnd: function(e) {
+      if (this.lockSlide)
+        return;
+      
       this.locked = undefined;
       this.direction = 0;
       this.isScrolling = undefined;

@@ -2283,6 +2283,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     this.foldedPosition = this.options.foldedPosition || 85;
     this.activated = false;
     this.isSliding = false;
+    this.lockSlide = false;
 
 
 
@@ -2381,6 +2382,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     onTouchStart: function(e) {
+      if (this.lockSlide)
+        return;
 
       this.start = {
 
@@ -2410,7 +2413,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     onTouchMove: function(e) {
-
+      if (this.lockSlide)
+        return;
       // ensure swiping with one touch and not pinching
       if (e.touches.length > 1 || e.scale && e.scale !== 1) return;
 
@@ -2460,6 +2464,9 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     onTouchEnd: function(e) {
+      if (this.lockSlide)
+        return;
+      
       this.locked = undefined;
       this.direction = 0;
       this.isScrolling = undefined;
