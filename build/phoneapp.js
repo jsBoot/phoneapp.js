@@ -2085,7 +2085,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
       if (this.content.content.length)
         this._domController(0, this.content.content, []);
 
-      this.content.content.addArrayObserver(this._domController.bind(this));
+      this._domController = this._domController.bind(this);
+      this.content.content.addArrayObserver(this._domController);
 
       this.addObserver('content', function(key, old, newArray) {
         old.content.removeArrayObserver(this._domController);
@@ -2129,6 +2130,10 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         }
 
       }, this);
+    },
+
+    willDestroyElement: function () {
+        this.content.content.removeArrayObserver(this._domController);
     }
   });
 });
