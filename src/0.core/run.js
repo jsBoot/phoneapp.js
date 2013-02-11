@@ -90,7 +90,7 @@ PhoneApp.pack('PhoneApp', function() {
     }
 
     hook.forEach(function(h) {
-      h.callback.call(h.scope, h.extra);
+      h.callback.apply(h.scope, h.extra);
     });
     renderQueue = pending;
     return true;
