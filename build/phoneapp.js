@@ -1110,17 +1110,16 @@ PhoneApp.pack('PhoneApp', function() {
         view: scope, operation: 'schedule', callback: callback, extra: extra
       });
     },
-    registerHook: function(callback) {
-      if (hook.indexOf(callback) == -1)
-        hook.push(callback);
+    registerHook: function(callback, scope, extra) {
+        hook.push({
+          callback: callback, scope: scope, extra: extra
+        });
     },
 
     removeHook: function(callback) {
-      var index = hook.indexOf(callback);
-      if (index == -1)
-        return;
-
-      delete hook[index];
+      hook = hook.filter(function (c) {
+        return (callback != c.callback);
+      });
     }
   };
 
@@ -1158,8 +1157,8 @@ PhoneApp.pack('PhoneApp', function() {
       item = renderQueue.shift();
     }
 
-    hook.forEach(function(callback) {
-      callback();
+    hook.forEach(function(h) {
+      h.callback.call(h.scope, h.extra);
     });
     renderQueue = pending;
     return true;
