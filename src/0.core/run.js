@@ -42,9 +42,17 @@ PhoneApp.pack('PhoneApp', function() {
         view: scope, operation: 'schedule', callback: callback, extra: extra
       });
     },
-    hook: function(callback) {
+    registerHook: function(callback) {
       if (hook.indexOf(callback) == -1)
         hook.push(callback);
+    },
+
+    removeHook: function(callback) {
+      var index = hook.indexOf(callback);
+      if (index == -1)
+        return;
+
+      delete hook[index];
     }
   };
 
