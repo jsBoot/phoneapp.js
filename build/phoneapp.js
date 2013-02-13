@@ -2140,7 +2140,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     willDestroyElement: function () {
-        this.content.content.removeArrayObserver(this._domController);
+        if (this.content && this.content.content)
+          this.content.content.removeArrayObserver(this._domController);
     }
   });
 });
