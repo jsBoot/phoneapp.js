@@ -36,6 +36,11 @@ PhoneApp.pack('PhoneApp', function(api) {
         navigator.splashscreen.hide();
     },
 
+    showSplash: function() {
+      if (this.device.isMobile && navigator.splashscreen.show)
+        navigator.splashscreen.show();
+    },
+
     onDeviceReady: function() {
       var platform;
 
