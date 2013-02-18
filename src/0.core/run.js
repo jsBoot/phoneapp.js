@@ -2,6 +2,9 @@ PhoneApp.pack('PhoneApp', function() {
   /*global requestAnimationFrame:true*/
   'use strict';
 
+  var animLoopFunction,
+      shouldContinue = true;
+
   var animLoop = function(render, element) {
     var running, lastFrame = Date.now();
     var loop = function(now) {
@@ -52,10 +55,19 @@ PhoneApp.pack('PhoneApp', function() {
       hook = hook.filter(function (c) {
         return (callback != c.callback);
       });
+    },
+
+    stop: function () {
+      shouldContinue = false;
+    },
+
+    start: function () {
+      shouldContinue = true;
+      animLoop(animLoopFunction);
     }
   };
 
-  animLoop(function(deltaT/*, now*/) {
+  animLoopFunction = function(deltaT/*, now*/) {
     if (deltaT > 160)
       return;
     var item = renderQueue.shift();
@@ -93,7 +105,9 @@ PhoneApp.pack('PhoneApp', function() {
       h.callback.apply(h.scope, h.extra);
     });
     renderQueue = pending;
-    return true;
-  });
+    return shouldContinue;
+  };
+
+  this.renderLoop.start();
 
 });
