@@ -13,6 +13,8 @@ def default():
   shims = FileList('src', filter="*shims*")
   combine(shims, 'build/phoneapp.shims.js')
 
+  FileSystem.copyfile('build/phoneapp.js', '/Workspace/webitup/clients/soldis/app.js/build/js/phoneapp.js')
+
 @task("Lint")
 def lint():
   PH.linter("src")

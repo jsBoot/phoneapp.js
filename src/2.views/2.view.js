@@ -253,8 +253,8 @@ PhoneApp.pack('PhoneApp', function(api) {
 
 
             if (infos.parent.indexOf('view') === 0) { 
-              infos.parent = infos.parent.replace('view.', '');
-              infos.path = infos.path.replace('view.', '');
+              infos.parent = infos.parent.replace(/view(.)?/, '');
+              infos.path = infos.path.replace(/view(.)?/, '');
               attr = infos.path;
             }
 
@@ -394,8 +394,8 @@ PhoneApp.pack('PhoneApp', function(api) {
               observer;
 
           if (observes.indexOf('view') === 0) { 
-            observes = observes.replace('view.', '');
-            currentValue = currentValue.replace('view.', '');
+            observes = observes.replace(/view(.)?/, '');
+            currentValue = currentValue.replace(/view(.)?/, '');
           }
 
           observes = observes ? this.get(observes) : this;
