@@ -152,6 +152,15 @@ PhoneApp.pack('PhoneApp', function(api) {
       return view;
     },
 
+    silentInsertChildAt: function(view, position) {
+      PhoneApp.renderLoop.schedule(function() {
+        this.element.insertBefore((view.element || view.render()), this.element.children[position]);
+      }, this);
+      view._parentView = this;
+      this._childViews.push(view);
+      return view;
+    },
+
     appendChild: function(view) {
       view.willInsertElement();
       PhoneApp.renderLoop.add(view, 'render', function() {
