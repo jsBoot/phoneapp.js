@@ -40,7 +40,6 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         if (realIndex in this._replaceTree) {
           viewClass = this._replaceTree[realIndex];
           delete this._replaceTree[realIndex];
-          this.silentInsertChildAt(viewClass, realIndex);
         } else {
           viewClass = this.itemViewClass.create({
             tagName: 'li'
@@ -48,9 +47,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           viewClass._compiledTpl = this._childTemplate;
           viewClass.controller = this.controller;
           viewClass.content = item;
-          this.insertChildAt(viewClass, realIndex);
         }
-        
+        this.insertChildAt(viewClass, realIndex);
       }, this);
 
       removed.forEach(function(item) {

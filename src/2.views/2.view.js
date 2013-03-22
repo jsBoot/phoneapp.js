@@ -142,19 +142,16 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     insertChildAt: function(view, position) {
-      view.willInsertElement();
-      PhoneApp.renderLoop.schedule(function() {
-        this.element.insertBefore((view.element || view.render()), this.element.children[position]);
-        view.didInsertElement();
-      }, this);
-      view._parentView = this;
-      this._childViews.push(view);
-      return view;
-    },
+      var insertedBefore = !!view.element;
+      
+      if (!insertedBefore)
+        view.willInsertElement();
 
-    silentInsertChildAt: function(view, position) {
       PhoneApp.renderLoop.schedule(function() {
         this.element.insertBefore((view.element || view.render()), this.element.children[position]);
+        
+        if (!insertedBefore)
+          view.didInsertElement();
       }, this);
       view._parentView = this;
       this._childViews.push(view);

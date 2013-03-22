@@ -1713,19 +1713,16 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     insertChildAt: function(view, position) {
-      view.willInsertElement();
-      PhoneApp.renderLoop.schedule(function() {
-        this.element.insertBefore((view.element || view.render()), this.element.children[position]);
-        view.didInsertElement();
-      }, this);
-      view._parentView = this;
-      this._childViews.push(view);
-      return view;
-    },
+      var insertedBefore = !!view.element;
+      
+      if (!insertedBefore)
+        view.willInsertElement();
 
-    silentInsertChildAt: function(view, position) {
       PhoneApp.renderLoop.schedule(function() {
         this.element.insertBefore((view.element || view.render()), this.element.children[position]);
+        
+        if (!insertedBefore)
+          view.didInsertElement();
       }, this);
       view._parentView = this;
       this._childViews.push(view);
@@ -2139,7 +2136,6 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         if (realIndex in this._replaceTree) {
           viewClass = this._replaceTree[realIndex];
           delete this._replaceTree[realIndex];
-          this.silentInsertChildAt(viewClass, realIndex);
         } else {
           viewClass = this.itemViewClass.create({
             tagName: 'li'
@@ -2147,9 +2143,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           viewClass._compiledTpl = this._childTemplate;
           viewClass.controller = this.controller;
           viewClass.content = item;
-          this.insertChildAt(viewClass, realIndex);
         }
-        
+        this.insertChildAt(viewClass, realIndex);
       }, this);
 
       removed.forEach(function(item) {
