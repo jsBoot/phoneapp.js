@@ -154,7 +154,7 @@ PhoneApp.pack('PhoneApp', function(api) {
           view.didInsertElement();
       }, this);
       view._parentView = this;
-      this._childViews.push(view);
+      this._childViews.insertAt(position, view);
       return view;
     },
 
