@@ -2276,7 +2276,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
             return true;
 
           pull.style.webkitTransitionDuration = 0;
-          setTansformAllChildren(this.element, this.offsetPullToRefresh, 200);
+          setTansformAllChildren(scrollable, this.offsetPullToRefresh, 200);
 
           $(pull).addClass('loading');
           this.set('isActivated', false);
@@ -2285,7 +2285,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           window.setTimeout(function() {
             this.set('isLoading', false);
             //XXX smooth loading slide out
-            setTansformAllChildren(this.element, 0, 0);
+            setTansformAllChildren(scrollable, 0, 0);
             $(pull).removeClass('loading');
           }.bind(this), 2000);
         }, this);
