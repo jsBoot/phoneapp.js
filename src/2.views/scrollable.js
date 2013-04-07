@@ -54,9 +54,10 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     offsetPullToRefresh: 50,
     isScrolling: false,
     isLoading: false,
+    scrollableSeclector: '.scrollable',
 
     didInsertElement: function() {
-      var scrollable = this.element;
+      var scrollable = this.element.querySelector(this.scrollableSeclector);
       var pull = scrollable.querySelector('.pull-to-refresh');
 
       setTansformAllChildren(scrollable, 0, 0);
