@@ -1089,6 +1089,7 @@ PhoneApp.pack('PhoneApp', function() {
     var ref = null;
 
     this.start = function() {
+      callback();
       ref = window.setInterval(callback, delay);
     };
 
