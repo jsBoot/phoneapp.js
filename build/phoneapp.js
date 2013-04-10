@@ -2129,7 +2129,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
     _domController: function(index, added, removed) {
       var childNodes = this.element.children;
-
+      
       added.forEach(function(item, addedIndex) {
         var realIndex = index + addedIndex;
         var viewClass;
@@ -2149,11 +2149,11 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
       }, this);
 
       removed.forEach(function(item) {
-        var node = childNodes[index];
-        if (!node) {
-          console.error('Collection trying to remove a dom node that does not exists', index, item);
-          return;
-        }
+        // var node = childNodes[index];
+        // if (!node) {
+        //   console.error('Collection trying to remove a dom node that does not exists', index, item);
+        //   return;
+        // }
 
         var nextPosition = this.content.content.indexOf(item);
         if (nextPosition == -1) {
