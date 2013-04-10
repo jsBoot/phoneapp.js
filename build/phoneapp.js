@@ -2283,12 +2283,12 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           this.set('isActivated', false);
           this.set('isLoading', true);
 
-          window.setTimeout(function() {
-            this.set('isLoading', false);
-            //XXX smooth loading slide out
-            setTansformAllChildren(scrollable, 0, 0);
-            $(pull).removeClass('loading');
-          }.bind(this), 2000);
+          // window.setTimeout(function() {
+          //   this.set('isLoading', false);
+          //   //XXX smooth loading slide out
+          //   setTansformAllChildren(scrollable, 0, 0);
+          //   $(pull).removeClass('loading');
+          // }.bind(this), 2000);
         }, this);
         //XXX send refresh event to collection controllers ???
         // if (self.content.refresh) {
@@ -2297,6 +2297,16 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         // }
       }.bind(this));
     },
+
+    refreshEnded: function () {
+      if (this.isLoading)
+        return;
+
+      //XXX smooth loading slide out
+      setTansformAllChildren(scrollable, 0, 0);
+      $(pull).removeClass('loading');
+
+    }.observes('isLoading'),
 
     scrollToTop: function() {
       tapToTop(this.element);
