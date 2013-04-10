@@ -122,17 +122,16 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         //   this.content.refresh(didRefreshed);
         // }
       }.bind(this));
-    },
 
-    refreshEnded: function () {
-      if (this.isLoading)
+      this.addObserver('isLoading', function () {
+        if (this.isLoading)
         return;
 
-      //XXX smooth loading slide out
-      setTansformAllChildren(scrollable, 0, 0);
-      $(pull).removeClass('loading');
-
-    }.observes('isLoading'),
+        //XXX smooth loading slide out
+        setTansformAllChildren(scrollable, 0, 0);
+        $(pull).removeClass('loading');
+      }.bind(this));
+    },
 
     scrollToTop: function() {
       tapToTop(this.element);
