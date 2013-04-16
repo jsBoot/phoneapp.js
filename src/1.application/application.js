@@ -82,7 +82,8 @@ PhoneApp.pack('PhoneApp', function(api) {
           run.start();
         }
       }
-      this.router.transitionTo('index');
+      if (this.router && this.router.transitionTo)
+        this.router.transitionTo('index');
     },
 
     bindPhoneGapEvents: function() {

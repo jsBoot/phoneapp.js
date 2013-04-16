@@ -238,8 +238,10 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     _computeAttributesBindings: function(attributes, bindingId) {
-      var gA = {class: '', style: ''},
-          view = this;
+      var gA = {};
+      gA['class'] = '';
+      gA['style'] = '';
+      var view = this;
 
       attributes.forEach(function(binding) {
         var currentAttribute = binding.attribute,
