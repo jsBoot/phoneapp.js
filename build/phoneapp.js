@@ -1212,8 +1212,7 @@ PhoneApp.use('PhoneApp.types.Object');
 PhoneApp.pack('PhoneApp', function(api) {
   /*global cordova:true*/
   'use strict';
-  
-  
+
   this.Application = api.Object.extend({
     rootElement: $('body').get(0),
     ready: PhoneApp.K,
@@ -1298,10 +1297,7 @@ PhoneApp.pack('PhoneApp', function(api) {
     },
 
     bindPhoneGapEvents: function() {
-      console.log('binding the stuff');
       document.addEventListener('deviceready', function() {
-        console.log('device ready');
-
         this.onDeviceReady();
         this.ready();
       }.bind(this), false);
@@ -2520,7 +2516,9 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           this.isSliding = true;
         }
         e.stopPropagation();
-        e.stopImmediatePropagation();
+        
+        if (e.stopImmediatePropagation)
+          e.stopImmediatePropagation();
         e.preventDefault();
         return false;
       }
@@ -2545,7 +2543,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
       if (this.isSliding) {
         e.stopPropagation();
-        e.stopImmediatePropagation();
+        if (e.stopImmediatePropagation)
+          e.stopImmediatePropagation();
         e.preventDefault();
       }
       this.isSliding = false;

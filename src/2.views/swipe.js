@@ -192,7 +192,9 @@
           this.isSliding = true;
         }
         e.stopPropagation();
-        e.stopImmediatePropagation();
+        
+        if (e.stopImmediatePropagation)
+          e.stopImmediatePropagation();
         e.preventDefault();
         return false;
       }
@@ -217,7 +219,8 @@
 
       if (this.isSliding) {
         e.stopPropagation();
-        e.stopImmediatePropagation();
+        if (e.stopImmediatePropagation)
+          e.stopImmediatePropagation();
         e.preventDefault();
       }
       this.isSliding = false;
