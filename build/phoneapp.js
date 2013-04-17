@@ -1225,6 +1225,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       state: null,
       isIphone: false,
       isIpad: false,
+      isIos: false,
       isRetina: false,
       isAndroid: false,
       isMobile: (function() {
@@ -1271,13 +1272,17 @@ PhoneApp.pack('PhoneApp', function(api) {
 
         if (window.device) {
           platform = window.device.platform.toLowerCase();
-          if (platform.indexOf('iphone') !== -1)
-            this.device.set('isIphone', true);
-          else if (platform.indexOf('ipad') !== -1)
-            this.device.set('isIpad', true);
+          dname = window.device.name.toLowerCase();
+          if (platform.indexOf('ios') !== -1)
+            this.device.set('isIos', true);
           else if (platform.indexOf('android') != -1)
             this.device.set('isAndroid', true);
 
+
+          if (dname.indexOf('iphone') !== -1)
+            this.device.set('isIphone', true);
+          else if (dname.indexOf('ipad') !== -1)
+            this.device.set('isIpad', true);
 
 
 
