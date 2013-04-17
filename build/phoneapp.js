@@ -1254,16 +1254,12 @@ PhoneApp.pack('PhoneApp', function(api) {
 
     onDeviceReady: function() {
       var platform;
-
-      $(this.rootElement).empty();
-      this.rootView.controller = this.rootController;
-      this.rootView.appendTo(this.rootElement);
+      var dname;
 
       if (window.devicePixelRatio > 1)
         this.device.set('isRetina', true);
 
       if (this.device.isMobile) {
-
         if (window.KeyboardToolbarRemover)
           cordova.require('cordova/plugin/keyboard_toolbar_remover').hide();
 
@@ -1273,6 +1269,7 @@ PhoneApp.pack('PhoneApp', function(api) {
         if (window.device) {
           platform = window.device.platform.toLowerCase();
           dname = window.device.name.toLowerCase();
+
           if (platform.indexOf('ios') !== -1)
             this.device.set('isIos', true);
           else if (platform.indexOf('android') != -1)
@@ -1297,6 +1294,11 @@ PhoneApp.pack('PhoneApp', function(api) {
           run.start();
         }
       }
+
+      $(this.rootElement).empty();
+      this.rootView.controller = this.rootController;
+      this.rootView.appendTo(this.rootElement);
+      
       if (this.router && this.router.transitionTo)
         this.router.transitionTo('index');
     },
