@@ -1,6 +1,7 @@
 PhoneApp.use('PhoneApp.types.Object');
 PhoneApp.pack('PhoneApp', function(api) {
-  /*global cordova:true*/
+  /*jshint maxcomplexity:11*/
+  /*global cordova:false*/
   'use strict';
 
   this.Application = api.Object.extend({

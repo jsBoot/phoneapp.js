@@ -17,7 +17,7 @@
     var infos = path.split('.');
     var property = infos.pop();
 
-    if (infos.indexOf('view') == 0)
+    if (infos.indexOf('view') === 0)
       infos.shift();
 
     var parent = infos.join('.');

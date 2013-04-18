@@ -1,6 +1,6 @@
 PhoneApp.use('PhoneApp.types.Object');
 PhoneApp.pack('PhoneApp', function(api) {
-  /*jshint devel:true, camelcase:false*/
+  /*jshint devel:true, camelcase:false, regexp:false, sub:true*/
   'use strict';
 
   var viewAttributeBindingNumber = 0,

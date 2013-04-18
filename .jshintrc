@@ -96,5 +96,8 @@
   "validthis": false,
 
   "globals": {
+    "PhoneApp": false,
+    "Pa": false,
+    "Handlebars": false
   }
 }

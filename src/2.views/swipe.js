@@ -7,6 +7,7 @@
 */
 
 (function() {
+  /*jshint maxcomplexity:11*/
   'use strict';
 
   window.Swipe = function(element, options) {

@@ -622,19 +622,19 @@ PhoneApp.pack('PhoneApp.types', function(api) {
 
       var docc = false;
 
-      if(this.sort !== undefined)
+      if (this.sort !== undefined)
         sort = this.sort;
 
-      if(this.filter !== undefined)
+      if (this.filter !== undefined)
         filter = this.filter;
 
-      if(this.map !== undefined)
+      if (this.map !== undefined)
         map = this.map;
 
-      if(this.limit !== undefined)
+      if (this.limit !== undefined)
         limit = this.limit;
 
-      if(this.content !== undefined){
+      if (this.content !== undefined) {
         arr = this.content;
         docc = true;
       }
@@ -739,7 +739,7 @@ PhoneApp.pack('PhoneApp.types', function(api) {
       });
 
       // Force reassign
-      if(docc)
+      if (docc)
         this.content = arr;
     }
   });
@@ -1115,22 +1115,22 @@ PhoneApp.pack('PhoneApp', function() {
       });
     },
     registerHook: function(callback, scope, extra) {
-        hook.push({
-          callback: callback, scope: scope, extra: extra
-        });
+      hook.push({
+        callback: callback, scope: scope, extra: extra
+      });
     },
 
     removeHook: function(callback) {
-      hook = hook.filter(function (c) {
+      hook = hook.filter(function(c) {
         return (callback != c.callback);
       });
     },
 
-    stop: function () {
+    stop: function() {
       shouldContinue = false;
     },
 
-    start: function () {
+    start: function() {
       shouldContinue = true;
       animLoop(animLoopFunction);
     }
@@ -1210,7 +1210,8 @@ PhoneApp.pack('PhoneApp.types', function() {
 
 PhoneApp.use('PhoneApp.types.Object');
 PhoneApp.pack('PhoneApp', function(api) {
-  /*global cordova:true*/
+  /*jshint maxcomplexity:11*/
+  /*global cordova:false*/
   'use strict';
 
   this.Application = api.Object.extend({
@@ -1298,7 +1299,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       $(this.rootElement).empty();
       this.rootView.controller = this.rootController;
       this.rootView.appendTo(this.rootElement);
-      
+
       if (this.router && this.router.transitionTo)
         this.router.transitionTo('index');
     },
@@ -1580,7 +1581,7 @@ PhoneApp.pack('PhoneApp', function() {
 
 PhoneApp.use('PhoneApp.types.Object');
 PhoneApp.pack('PhoneApp', function(api) {
-  /*jshint devel:true, camelcase:false*/
+  /*jshint devel:true, camelcase:false, regexp:false, sub:true*/
   'use strict';
 
   var viewAttributeBindingNumber = 0,
@@ -1675,7 +1676,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       if (!this.attributes)
         this.attributes = [];
-      
+
       this._meta_observers = [];
       this._metamorphs = [];
 
@@ -1723,13 +1724,13 @@ PhoneApp.pack('PhoneApp', function(api) {
 
     insertChildAt: function(view, position) {
       var insertedBefore = !!view.element;
-      
+
       if (!insertedBefore)
         view.willInsertElement();
 
       PhoneApp.renderLoop.schedule(function() {
         this.element.insertBefore((view.element || view.render()), this.element.children[position]);
-        
+
         if (!insertedBefore)
           view.didInsertElement();
       }, this);
@@ -1786,7 +1787,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       node = document.createElement(this.tagName);
 
-      this.attributes.forEach(function (attr) {
+      this.attributes.forEach(function(attr) {
         if (!attr)
           return;
 
@@ -1840,7 +1841,7 @@ PhoneApp.pack('PhoneApp', function(api) {
                 observer;
 
 
-            if (infos.parent.indexOf('view') === 0) { 
+            if (infos.parent.indexOf('view') === 0) {
               infos.parent = infos.parent.replace(/view(.)?/, '');
               infos.path = infos.path.replace(/view(.)?/, '');
               attr = infos.path;
@@ -1851,7 +1852,7 @@ PhoneApp.pack('PhoneApp', function(api) {
               return;
             }
 
-            
+
 
             infos.parent = infos.parent ? this.get(infos.parent) : this;
 
@@ -1981,7 +1982,7 @@ PhoneApp.pack('PhoneApp', function(api) {
               observes = split.join('.'),
               observer;
 
-          if (observes.indexOf('view') === 0) { 
+          if (observes.indexOf('view') === 0) {
             observes = observes.replace(/view(.)?/, '');
             currentValue = currentValue.replace(/view(.)?/, '');
           }
@@ -2138,8 +2139,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     },
 
     _domController: function(index, added, removed) {
-      var childNodes = this.element.children;
-      
+      // var childNodes = this.element.children;
+
       added.forEach(function(item, addedIndex) {
         var realIndex = index + addedIndex;
         var viewClass;
@@ -2175,9 +2176,9 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
       }, this);
     },
 
-    willDestroyElement: function () {
-        if (this.content && this.content.content)
-          this.content.content.removeArrayObserver(this._domController);
+    willDestroyElement: function() {
+      if (this.content && this.content.content)
+        this.content.content.removeArrayObserver(this._domController);
     }
   });
 });
@@ -2307,9 +2308,9 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         // }
       }.bind(this));
 
-      this.addObserver('isLoading', function () {
+      this.addObserver('isLoading', function() {
         if (this.isLoading)
-        return;
+          return;
 
         //XXX smooth loading slide out
         setTansformAllChildren(scrollable, 0, 0);
@@ -2338,6 +2339,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 */
 
 (function() {
+  /*jshint maxcomplexity:11*/
   'use strict';
 
   window.Swipe = function(element, options) {
@@ -2523,7 +2525,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
           this.isSliding = true;
         }
         e.stopPropagation();
-        
+
         if (e.stopImmediatePropagation)
           e.stopImmediatePropagation();
         e.preventDefault();
@@ -2537,7 +2539,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     onTouchEnd: function(e) {
       if (this.lockSlide)
         return;
-      
+
       this.locked = undefined;
       this.direction = 0;
       this.isScrolling = undefined;
@@ -2620,7 +2622,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     var infos = path.split('.');
     var property = infos.pop();
 
-    if (infos.indexOf('view') == 0)
+    if (infos.indexOf('view') === 0)
       infos.shift();
 
     var parent = infos.join('.');
@@ -2678,8 +2680,8 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     //XXX clear bindToView when destroying newView
     if (bindToView)
       currentView.set(bindToView, newView);
-    
-     
+
+
     currentView.appendChild(newView);
 
     return new Handlebars.SafeString(newView.renderWrapper().outerHTML);
@@ -2756,7 +2758,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
     if (bindToView)
       currentView.set(bindToView, newView);
 
-    
+
     currentView.appendChild(newView);
 
     return new Handlebars.SafeString(newView.renderWrapper().outerHTML);
