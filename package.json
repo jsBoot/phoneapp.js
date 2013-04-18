@@ -1,0 +1,66 @@
+{
+  "name": "phoneapp.js",
+  "version": "0.0.1",
+
+  "description": "PhoneApp is Phone and App",
+  "keywords": ["phone", "sdk", "mobile", "light"],
+  "author": {
+    "name": "WebItUp",
+    "email": "hello@webitup.fr",
+    "url": "http://www.webitup.fr"
+  },
+  "maintainers": [
+    {
+      "name": "Mangled Deutz",
+      "email": "dev@webitup.fr",
+      "url": "https://twitter.com/MangledDeutz"
+    },
+    {
+      "name": "Raildecom",
+      "email": "dev@webitup.fr",
+      "url": "https://twitter.com/raildecom"
+    }
+  ],
+  "contributors":[
+    {
+      "name": "Mangled Deutz",
+      "email": "dev@webitup.fr",
+      "url": "https://twitter.com/MangledDeutz"
+    },
+    {
+      "name": "Raildecom",
+      "email": "dev@webitup.fr",
+      "url": "https://twitter.com/raildecom"
+    }
+  ],
+  "bugs": "https://github.com/jsBoot/phoneapp.js/issues",
+  "licenses": [
+     {
+         "type": "MIT",
+         "url": "http://en.wikipedia.org/wiki/MIT_License"
+     }
+  ],
+  "repositories": [
+         {
+              "type": "git",
+              "url": "https://github.com/jsBoot/phoneapp.js.git"
+         }
+  ],
+  "dependencies": {
+  },
+
+  "homepage": "http://www.webitup.fr",
+
+  "directories": {
+    "src": "src",
+    "tests": "src/tests",
+    "build": ".build",
+    "tmp": ".tmp",
+    "doc": "doc",
+    "dist": "dist"
+  },
+
+  "config": {
+    
+  }
+}
