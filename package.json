@@ -53,10 +53,8 @@
 
   "directories": {
     "src": "src",
-    "tests": "src/tests",
     "build": ".build",
     "tmp": ".tmp",
-    "doc": "doc",
     "dist": "dist"
   },
 

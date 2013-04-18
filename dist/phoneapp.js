@@ -2764,8 +2764,3 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
 })();
 
-(function() {
-  'use strict';
-
-})();
-
