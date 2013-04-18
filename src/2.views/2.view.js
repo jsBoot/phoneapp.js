@@ -95,7 +95,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       if (!this.attributes)
         this.attributes = [];
-      
+
       this._meta_observers = [];
       this._metamorphs = [];
 
@@ -143,13 +143,13 @@ PhoneApp.pack('PhoneApp', function(api) {
 
     insertChildAt: function(view, position) {
       var insertedBefore = !!view.element;
-      
+
       if (!insertedBefore)
         view.willInsertElement();
 
       PhoneApp.renderLoop.schedule(function() {
         this.element.insertBefore((view.element || view.render()), this.element.children[position]);
-        
+
         if (!insertedBefore)
           view.didInsertElement();
       }, this);
@@ -206,7 +206,7 @@ PhoneApp.pack('PhoneApp', function(api) {
 
       node = document.createElement(this.tagName);
 
-      this.attributes.forEach(function (attr) {
+      this.attributes.forEach(function(attr) {
         if (!attr)
           return;
 
@@ -260,7 +260,7 @@ PhoneApp.pack('PhoneApp', function(api) {
                 observer;
 
 
-            if (infos.parent.indexOf('view') === 0) { 
+            if (infos.parent.indexOf('view') === 0) {
               infos.parent = infos.parent.replace(/view(.)?/, '');
               infos.path = infos.path.replace(/view(.)?/, '');
               attr = infos.path;
@@ -271,7 +271,7 @@ PhoneApp.pack('PhoneApp', function(api) {
               return;
             }
 
-            
+
 
             infos.parent = infos.parent ? this.get(infos.parent) : this;
 
@@ -401,7 +401,7 @@ PhoneApp.pack('PhoneApp', function(api) {
               observes = split.join('.'),
               observer;
 
-          if (observes.indexOf('view') === 0) { 
+          if (observes.indexOf('view') === 0) {
             observes = observes.replace(/view(.)?/, '');
             currentValue = currentValue.replace(/view(.)?/, '');
           }

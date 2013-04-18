@@ -192,7 +192,7 @@
           this.isSliding = true;
         }
         e.stopPropagation();
-        
+
         if (e.stopImmediatePropagation)
           e.stopImmediatePropagation();
         e.preventDefault();
@@ -206,7 +206,7 @@
     onTouchEnd: function(e) {
       if (this.lockSlide)
         return;
-      
+
       this.locked = undefined;
       this.direction = 0;
       this.isScrolling = undefined;

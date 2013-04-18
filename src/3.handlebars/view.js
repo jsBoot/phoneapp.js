@@ -40,7 +40,7 @@
     if (bindToView)
       currentView.set(bindToView, newView);
 
-    
+
     currentView.appendChild(newView);
 
     return new Handlebars.SafeString(newView.renderWrapper().outerHTML);

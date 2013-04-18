@@ -123,9 +123,9 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         // }
       }.bind(this));
 
-      this.addObserver('isLoading', function () {
+      this.addObserver('isLoading', function() {
         if (this.isLoading)
-        return;
+          return;
 
         //XXX smooth loading slide out
         setTansformAllChildren(scrollable, 0, 0);

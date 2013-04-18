@@ -47,22 +47,22 @@ PhoneApp.pack('PhoneApp', function() {
       });
     },
     registerHook: function(callback, scope, extra) {
-        hook.push({
-          callback: callback, scope: scope, extra: extra
-        });
+      hook.push({
+        callback: callback, scope: scope, extra: extra
+      });
     },
 
     removeHook: function(callback) {
-      hook = hook.filter(function (c) {
+      hook = hook.filter(function(c) {
         return (callback != c.callback);
       });
     },
 
-    stop: function () {
+    stop: function() {
       shouldContinue = false;
     },
 
-    start: function () {
+    start: function() {
       shouldContinue = true;
       animLoop(animLoopFunction);
     }

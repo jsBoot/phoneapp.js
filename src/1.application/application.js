@@ -88,7 +88,7 @@ PhoneApp.pack('PhoneApp', function(api) {
       $(this.rootElement).empty();
       this.rootView.controller = this.rootController;
       this.rootView.appendTo(this.rootElement);
-      
+
       if (this.router && this.router.transitionTo)
         this.router.transitionTo('index');
     },
