@@ -1,3 +1,5 @@
+// XXX MIGRATED TO JSBOOT
+
 PhoneApp.add(Error).as('NativeError');
 PhoneApp.pack('PhoneApp.types', function(api) {
   /*global printStackTrace:false*/

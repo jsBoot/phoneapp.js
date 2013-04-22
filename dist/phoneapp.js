@@ -13,6 +13,7 @@
 
 }).apply(this);
 
+// XXX MIGRATED TO JSBOOT
 (function(globalObject) {
   'use strict';
 
@@ -747,6 +748,8 @@ PhoneApp.pack('PhoneApp.types', function(api) {
 });
 
 
+// XXX MIGRATED TO JSBOOT
+
 PhoneApp.add(Error).as('NativeError');
 PhoneApp.pack('PhoneApp.types', function(api) {
   /*global printStackTrace:false*/
@@ -782,6 +785,8 @@ PhoneApp.pack('PhoneApp.types', function(api) {
   };
 
 });
+
+// XXX SHOULD BE ASIS IN JSBOOT
 
 PhoneApp.use('PhoneApp.types.Error');
 PhoneApp.pack('PhoneApp.service', function(api) {

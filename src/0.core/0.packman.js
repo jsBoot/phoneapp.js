@@ -1,3 +1,4 @@
+// XXX MIGRATED TO JSBOOT
 (function(globalObject) {
   'use strict';
 

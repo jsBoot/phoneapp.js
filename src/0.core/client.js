@@ -1,3 +1,5 @@
+// XXX SHOULD BE ASIS IN JSBOOT
+
 PhoneApp.use('PhoneApp.types.Error');
 PhoneApp.pack('PhoneApp.service', function(api) {
   'use strict';
