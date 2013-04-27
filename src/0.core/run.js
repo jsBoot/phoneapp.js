@@ -2,8 +2,7 @@ PhoneApp.pack('PhoneApp', function() {
   /*global requestAnimationFrame:true*/
   'use strict';
 
-  var animLoopFunction,
-      shouldContinue = true;
+  var animLoopFunction;
 
   var animLoop = function(render, element) {
     var running, lastFrame = Date.now();
@@ -14,7 +13,7 @@ PhoneApp.pack('PhoneApp', function() {
         lastFrame = now;
       }
     };
-    loop();
+    loop(Date.now());
   };
 
   var Run = function(delay, callback) {
@@ -34,22 +33,39 @@ PhoneApp.pack('PhoneApp', function() {
 
   var renderQueue = [];
   var hook = [];
+  var isLoopRunning = false;
+
+  var _ensureLoopRunning = function (){
+    if (isLoopRunning)
+      return;
+    isLoopRunning = true;
+    animLoop(animLoopFunction);
+  };
 
   this.renderLoop = {
     add: function(view, operation, callback) {
       renderQueue.push({
         view: view, operation: operation, callback: callback
       });
+      _ensureLoopRunning();
     },
     schedule: function(callback, scope, extra) {
+      if (!callback)
+        return;
+      
       renderQueue.push({
         view: scope, operation: 'schedule', callback: callback, extra: extra
       });
+      _ensureLoopRunning();
     },
     registerHook: function(callback, scope, extra) {
+      if (!callback)
+        return;
+
       hook.push({
         callback: callback, scope: scope, extra: extra
       });
+      _ensureLoopRunning();
     },
 
     removeHook: function(callback) {
@@ -59,12 +75,11 @@ PhoneApp.pack('PhoneApp', function() {
     },
 
     stop: function() {
-      shouldContinue = false;
+      console.warn('deprecated method PhoneApp.renderLoop.stop');
     },
 
     start: function() {
-      shouldContinue = true;
-      animLoop(animLoopFunction);
+      console.warn('deprecated method PhoneApp.renderLoop.start');
     }
   };
 
@@ -106,7 +121,9 @@ PhoneApp.pack('PhoneApp', function() {
       h.callback.apply(h.scope, h.extra);
     });
     renderQueue = pending;
-    return shouldContinue;
+
+    isLoopRunning = !!(pending.length || hook.length);
+    return isLoopRunning;
   };
 
   this.renderLoop.start();

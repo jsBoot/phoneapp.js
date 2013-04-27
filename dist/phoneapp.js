@@ -1075,8 +1075,7 @@ PhoneApp.pack('PhoneApp', function() {
   /*global requestAnimationFrame:true*/
   'use strict';
 
-  var animLoopFunction,
-      shouldContinue = true;
+  var animLoopFunction;
 
   var animLoop = function(render, element) {
     var running, lastFrame = Date.now();
@@ -1087,7 +1086,7 @@ PhoneApp.pack('PhoneApp', function() {
         lastFrame = now;
       }
     };
-    loop();
+    loop(Date.now());
   };
 
   var Run = function(delay, callback) {
@@ -1107,22 +1106,39 @@ PhoneApp.pack('PhoneApp', function() {
 
   var renderQueue = [];
   var hook = [];
+  var isLoopRunning = false;
+
+  var _ensureLoopRunning = function (){
+    if (isLoopRunning)
+      return;
+    isLoopRunning = true;
+    animLoop(animLoopFunction);
+  };
 
   this.renderLoop = {
     add: function(view, operation, callback) {
       renderQueue.push({
         view: view, operation: operation, callback: callback
       });
+      _ensureLoopRunning();
     },
     schedule: function(callback, scope, extra) {
+      if (!callback)
+        return;
+      
       renderQueue.push({
         view: scope, operation: 'schedule', callback: callback, extra: extra
       });
+      _ensureLoopRunning();
     },
     registerHook: function(callback, scope, extra) {
+      if (!callback)
+        return;
+
       hook.push({
         callback: callback, scope: scope, extra: extra
       });
+      _ensureLoopRunning();
     },
 
     removeHook: function(callback) {
@@ -1132,12 +1148,11 @@ PhoneApp.pack('PhoneApp', function() {
     },
 
     stop: function() {
-      shouldContinue = false;
+      console.warn('deprecated method PhoneApp.renderLoop.stop');
     },
 
     start: function() {
-      shouldContinue = true;
-      animLoop(animLoopFunction);
+      console.warn('deprecated method PhoneApp.renderLoop.start');
     }
   };
 
@@ -1179,7 +1194,9 @@ PhoneApp.pack('PhoneApp', function() {
       h.callback.apply(h.scope, h.extra);
     });
     renderQueue = pending;
-    return shouldContinue;
+
+    isLoopRunning = !!(pending.length || hook.length);
+    return isLoopRunning;
   };
 
   this.renderLoop.start();
@@ -2414,6 +2431,7 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
       // restore the visibility of the slider element
       this.element.style.visibility = origVisibility;
 
+
     },
 
     activate: function(value) {
@@ -2427,16 +2445,17 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
 
       // fallback to default speed
       var duration = this.speed;
-
-      // set duration speed (0 represents 1-to-1 scrolling)
-      style.webkitTransitionDuration = style.MozTransitionDuration = style.msTransitionDuration =
-          style.OTransitionDuration = style.transitionDuration = duration + 'ms';
-
       var position = this.activated ? 0 : (this.foldedPosition * this.width / 100);
 
-      // translate to given index position
-      style.MozTransform = style.webkitTransform = 'translate3d(' + position + 'px,0,0)';
-      style.msTransform = style.OTransform = 'translateX(' + position + 'px)';
+      // set duration speed (0 represents 1-to-1 scrolling)
+      Pa.renderLoop.schedule(function () {
+        style.webkitTransitionDuration = style.MozTransitionDuration = style.msTransitionDuration =
+            style.OTransitionDuration = style.transitionDuration = duration + 'ms';
+
+        // translate to given index position
+        style.MozTransform = style.webkitTransform = 'translateX(' + position + 'px)';
+        style.msTransform = style.OTransform = 'translateX(' + position + 'px)';
+      })
     },
 
     handleEvent: function(e) {
@@ -2481,10 +2500,12 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
       // reset deltaX
       this.deltaX = 0;
 
+      var style = this.element.style;
 
       // set transition time to 0 for 1-to-1 touch movement
-      this.element.style.MozTransitionDuration = this.element.style.webkitTransitionDuration = 0;
-
+      Pa.renderLoop.schedule(function () {
+        style.MozTransitionDuration = style.webkitTransitionDuration = 0;
+      })
       // e.stopPropagation();
     },
 
@@ -2525,8 +2546,12 @@ PhoneApp.pack('PhoneApp', function(/*api*/) {
         // translate immediately 1-to-1
 
         if (progress > -5 && progress < this.foldedPosition + 5) {
-          this.element.style.MozTransform = this.element.style.webkitTransform = 'translate3d(' +
-              (this.deltaX < 0 ? 0 : this.deltaX) + 'px,0,0)';
+          var style = this.element.style;
+          var position = (this.deltaX < 0 ? 0 : this.deltaX);
+
+          Pa.renderLoop.schedule(function () {
+            style.MozTransform = style.webkitTransform = 'translateX(' + position + 'px)';
+          })
           this.isSliding = true;
         }
         e.stopPropagation();
