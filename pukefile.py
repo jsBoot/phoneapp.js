@@ -67,7 +67,7 @@ def build():
   # shims = FileList('src', filter="*shims*")
   # combine(shims, Yak.paths['build'] + '/phoneapp.shims.js')
 
-  combine(FileList(Yak.paths['build'], filter='*phoneapp.js'), '/Workspace/webitup/omci/mobile-app/build/js/phoneapp/master/phoneapp.js')
+  # combine(FileList(Yak.paths['build'], filter='*phoneapp.js'), '/Workspace/webitup/omci/mobile-app/build/js/phoneapp/master/phoneapp.js')
 
 @task("Deploy package")
 def deploy():
